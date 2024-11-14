@@ -4,9 +4,7 @@ import { DbModule } from './common/database-connection/database.module';
 import { HelperModule } from './common/helper/helper.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ProductsModule } from './products/products.module';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './common/guards/auth.guard';
-import { JwtService } from '@nestjs/jwt';
+import { ElasticModule } from './libs/elastic/elastic.module';
 
 @Module({
   imports: [
@@ -17,6 +15,7 @@ import { JwtService } from '@nestjs/jwt';
       isGlobal: true,
     }),
     ProductsModule,
+    ElasticModule,
   ],
   controllers: [],
   providers: [],

@@ -78,6 +78,7 @@ export class AuthService {
       const accessToken: string = await this.jwtService.signAsync({
         username: user.username,
         id: user.id,
+        role: user.role,
       });
 
       const response: BaseResponseDto = this.helper.transformToResponse(
@@ -98,9 +99,9 @@ export class AuthService {
 
   async getUserByUsername(
     username: string,
-  ): Promise<{ id: string; username: string; password: string }> {
+  ): Promise<{ id: string; username: string; password: string; role: string }> {
     const result: QueryResult<any> = await this.conn.query(
-      'SELECT id, username, password FROM users WHERE username = $1',
+      'SELECT id, username, password, role FROM users WHERE username = $1',
       [username],
     );
 

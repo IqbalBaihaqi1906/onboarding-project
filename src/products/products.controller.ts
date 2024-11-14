@@ -39,6 +39,14 @@ export class ProductsController {
   }
 
   @Public()
+  @Get('/search/all')
+  async searchProducts(
+    @Query() searchDto: GetProductsDto,
+  ): Promise<BaseResponseDto> {
+    return this.productsService.search(searchDto);
+  }
+
+  @Public()
   @Get('/:id')
   async getProductById(
     @Param('id', ParseUUIDPipe) id: string,

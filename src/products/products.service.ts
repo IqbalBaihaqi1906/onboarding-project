@@ -6,12 +6,14 @@ import { HelperService } from '../common/helper/helper.service';
 import { v4 as uuidv4 } from 'uuid';
 import { GetProductsDto } from './dto/get-products.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ElasticService } from '../libs/elastic/elastic.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @Inject('DB_CONNECTION') private conn: Pool,
     private helper: HelperService,
+    private elasticService: ElasticService,
   ) {}
 
   async createProduct(
@@ -25,10 +27,35 @@ export class ProductsService {
         [name, price, description, stock, uuidv4()],
       );
 
+      await this.elasticService.indexProduct(result.rows[0]);
+
       const response: BaseResponseDto = this.helper.transformToResponse(
         result.rows[0],
         201,
       );
+
+      return response;
+    } catch (e) {
+      throw new HttpException(
+        e.message || 'Internal server error',
+        e.status || 500,
+      );
+    }
+  }
+
+  async search(searchDto: GetProductsDto): Promise<BaseResponseDto> {
+    try {
+      const result: any = await this.elasticService.searchProduct(searchDto);
+
+      const products = result.hits.hits.map((product: any) => product._source);
+
+      const response: BaseResponseDto =
+        this.helper.transformToPaginatedResponse(
+          products,
+          result.hits.total.value,
+          searchDto.page,
+          searchDto.limit,
+        );
 
       return response;
     } catch (e) {
@@ -128,10 +155,9 @@ export class ProductsService {
         id,
       );
 
-      console.log('query', query);
-      console.log('params', params);
-
       const result: QueryResult<any> = await this.conn.query(query, params);
+
+      await this.elasticService.updateProduct(result.rows[0]);
 
       const response: BaseResponseDto = this.helper.transformToResponse(
         result.rows[0],
@@ -160,6 +186,8 @@ export class ProductsService {
         result.rows[0],
         200,
       );
+
+      await this.elasticService.deleteProduct(id);
 
       return response;
     } catch (e) {
