@@ -30,7 +30,7 @@ export class ProductsController {
     return this.productsService.createProduct(createProductDto);
   }
 
-  @Public()
+  @Roles(RoleUser.CUSTOMER)
   @Get('/')
   async getProducts(
     @Query() getProductDto: GetProductsDto,

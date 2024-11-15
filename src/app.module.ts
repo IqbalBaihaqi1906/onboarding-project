@@ -5,6 +5,7 @@ import { HelperModule } from './common/helper/helper.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ProductsModule } from './products/products.module';
 import { ElasticModule } from './libs/elastic/elastic.module';
+import { RedisModule } from './libs/redis/redis.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ElasticModule } from './libs/elastic/elastic.module';
     }),
     ProductsModule,
     ElasticModule,
+    RedisModule,
   ],
   controllers: [],
   providers: [],

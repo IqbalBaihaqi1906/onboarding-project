@@ -6,10 +6,16 @@ import {
 } from '@elastic/elasticsearch/lib/api/types';
 import { GetProductsDto } from '../../products/dto/get-products.dto';
 import { Product } from '../../products/models/product.model';
+import { LogTypeEnum } from '../../common/enums/log-type.enum';
+import { LogDto } from '../../common/dto/log.dto';
 
 @Injectable()
 export class ElasticService {
   private indexes: string[] = ['products', 'users'];
+  private logType: LogTypeEnum[] = [
+    LogTypeEnum.userActivity,
+    LogTypeEnum.productActivity,
+  ];
 
   constructor(private readonly elasticClient: ElasticsearchService) {
     this.initIndexes();
@@ -24,6 +30,15 @@ export class ElasticService {
       index: this.indexes[0] || 'products',
       document: data,
     });
+  }
+
+  async logActivity(data: LogDto) {
+    if (this.logType.includes(data.type)) {
+      await this.elasticClient.index({
+        index: 'app_logs',
+        document: data,
+      });
+    }
   }
 
   async searchProduct(searchDto: GetProductsDto) {
@@ -145,6 +160,7 @@ export class ElasticService {
   private async initIndexes() {
     await this.createProductIndex();
     await this.createUsersIndex();
+    await this.createLogIndex();
   }
 
   private searchDocumentById(id: string) {
@@ -200,6 +216,28 @@ export class ElasticService {
             price: { type: 'float' },
             description: { type: 'text' },
             stock: { type: 'integer' },
+          },
+        },
+      });
+    }
+  }
+
+  private async createLogIndex(): Promise<IndicesCreateResponse> {
+    const exists = await this.elasticClient.indices.exists({
+      index: 'app_logs',
+    });
+
+    if (!exists) {
+      return this.elasticClient.indices.create({
+        index: 'app_logs',
+        mappings: {
+          properties: {
+            type: { type: 'keyword' },
+            activity: { type: 'text' },
+            timestamp: { type: 'date' },
+            method: { type: 'keyword' },
+            endpoint: { type: 'text' },
+            status: { type: 'keyword' },
           },
         },
       });

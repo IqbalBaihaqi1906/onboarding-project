@@ -8,6 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '../common/guards/auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
+import { RedisModule } from '../libs/redis/redis.module';
 
 @Module({
   controllers: [AuthController],
@@ -28,6 +29,7 @@ import { RolesGuard } from '../common/guards/roles.guard';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    RedisModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

@@ -1,8 +1,13 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { BaseResponseDto } from '../dto/base-response.dto';
+import { LogTypeEnum } from '../enums/log-type.enum';
+import { EnumLogStatus, LogDto } from '../dto/log.dto';
+import { ElasticService } from '../../libs/elastic/elastic.service';
 
 @Injectable()
 export class HelperService {
+  constructor(private elasticClient: ElasticService) {}
+
   transformToResponse(data: any, statusCode: number): BaseResponseDto {
     return {
       success: true,
@@ -11,6 +16,31 @@ export class HelperService {
       error: null,
       meta: null,
     };
+  }
+
+  async log(
+    type: LogTypeEnum,
+    activity: string,
+    timestamp: string,
+    method: string,
+    endpoint: string,
+    status: EnumLogStatus,
+  ): Promise<void> {
+    try {
+      const logData: LogDto = {
+        type,
+        activity,
+        timestamp,
+        method,
+        endpoint,
+        status,
+      };
+
+      await this.elasticClient.logActivity(logData);
+    } catch (e) {
+      console.error(e);
+      throw new BadRequestException('Failed to log activity');
+    }
   }
 
   transformToPaginatedResponse(

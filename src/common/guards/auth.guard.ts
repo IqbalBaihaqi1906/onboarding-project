@@ -9,6 +9,7 @@ import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { PUBLIC } from '../decorators/public.decorator';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -16,6 +17,7 @@ export class AuthGuard implements CanActivate {
     private jwtService: JwtService,
     private configService: ConfigService,
     private reflector: Reflector,
+    private authService: AuthService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -32,12 +34,17 @@ export class AuthGuard implements CanActivate {
     }
 
     if (!token) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException({
+        message: 'Unauthorized',
+        details: ['Token not found'],
+      });
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: this.configService.get('JWT_SECRET'),
       });
+
+      await this.authService.validateUser(payload.id);
 
       request['user'] = payload;
     } catch {

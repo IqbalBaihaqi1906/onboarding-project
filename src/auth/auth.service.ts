@@ -12,6 +12,9 @@ import { HelperService } from '../common/helper/helper.service';
 import { v4 as uuidv4 } from 'uuid';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
+import { LogTypeEnum } from '../common/enums/log-type.enum';
+import { EnumLogStatus } from '../common/dto/log.dto';
+import { RedisService } from '../libs/redis/redis.service';
 
 @Injectable()
 export class AuthService {
@@ -19,6 +22,7 @@ export class AuthService {
     @Inject('DB_CONNECTION') private conn: Pool,
     private helper: HelperService,
     private jwtService: JwtService,
+    private redisClient: RedisService,
   ) {}
 
   async register(registerDto: RegisterDto): Promise<BaseResponseDto> {
@@ -40,6 +44,16 @@ export class AuthService {
           username: result.rows[0].username,
         },
         201,
+      );
+
+      // Log user activity
+      await this.helper.log(
+        LogTypeEnum.userActivity,
+        `User ${username} registered`,
+        new Date().toISOString(),
+        'POST',
+        '/auth/register',
+        EnumLogStatus.SUCCESS,
       );
 
       return response;
@@ -88,6 +102,19 @@ export class AuthService {
         200,
       );
 
+      await Promise.all([
+        // Log user activity
+        this.helper.log(
+          LogTypeEnum.userActivity,
+          `User ${username} logged in`,
+          new Date().toISOString(),
+          'POST',
+          '/auth/login',
+          EnumLogStatus.SUCCESS,
+        ),
+        // Save access token to redis
+        this.redisClient.setWithExpiry(`user:${user.id}`, accessToken, 3600),
+      ]);
       return response;
     } catch (e) {
       throw new HttpException(
@@ -110,5 +137,24 @@ export class AuthService {
     }
 
     return result.rows[0];
+  }
+
+  async validateUser(id: string): Promise<void> {
+    // const result: QueryResult<any> = await this.conn.query(
+    //   'SELECT * FROM users WHERE id = $1',
+    //   [id],
+    // );
+
+    const accessToken: string = await this.redisClient.get(`user:${id}`);
+
+    if (!accessToken) {
+      throw new HttpException(
+        {
+          message: 'Unauthorized',
+          details: ['Invalid token'],
+        },
+        401,
+      );
+    }
   }
 }
