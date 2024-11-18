@@ -99,8 +99,8 @@ export class ElasticService {
     const result = await this.elasticClient.search({
       index: this.indexes[0] || 'products',
       query,
-      size: searchDto.limit,
-      from: (searchDto.page - 1) * searchDto.limit,
+      size: searchDto.limit || 10,
+      from: (searchDto.page - 1) * searchDto.limit || 0,
     });
 
     return result;

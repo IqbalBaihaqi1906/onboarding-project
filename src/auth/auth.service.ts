@@ -102,6 +102,9 @@ export class AuthService {
         200,
       );
 
+      // remove from redis
+      await this.redisClient.delete(`user:${user.id}`);
+
       await Promise.all([
         // Log user activity
         this.helper.log(
