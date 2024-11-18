@@ -9,6 +9,7 @@ import { RedisModule } from './libs/redis/redis.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CartModule } from './cart/cart.module';
 import { NewsModule } from './news/news.module';
+import { AuctionModule } from './auction/auction.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { NewsModule } from './news/news.module';
     MongooseModule.forRoot(process.env.MONGO_URI),
     CartModule,
     NewsModule,
+    AuctionModule,
   ],
   controllers: [],
   providers: [],
