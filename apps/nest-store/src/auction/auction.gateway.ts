@@ -7,10 +7,10 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { AuctionService } from './auction.service';
-import { WsJwtAuthGuard } from '../common/guards/socket.guard';
 import { UseFilters, UseGuards } from '@nestjs/common';
-import { WsExceptionFilter } from '../common/exceptions/socket-exception.filter';
-import { AuthenticatedSockerUser } from '../common/dto/authenticated-user.dto';
+import { AuthenticatedSockerUser } from '@app/dto';
+import { WsJwtAuthGuard } from '@app/guards';
+import { WsExceptionFilter } from '@app/exceptions';
 
 @UseFilters(new WsExceptionFilter())
 @WebSocketGateway({

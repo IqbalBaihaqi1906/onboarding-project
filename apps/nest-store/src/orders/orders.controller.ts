@@ -1,11 +1,9 @@
 import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { Roles } from '../common/decorators/roles.decorator';
-import { RoleUser } from '../common/enums/user.enum';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { AuthenticatedUser } from '../common/dto/authenticated-user.dto';
-import { BaseResponseDto } from '../common/dto/base-response.dto';
-import { Public } from '../common/decorators/public.decorator';
+import { AuthenticatedUser, BaseResponseDto } from '@app/dto';
+import { RoleUser } from '@app/enums';
+import { Public, Roles } from '@app/decorators';
 
 @Controller('orders')
 export class OrdersController {

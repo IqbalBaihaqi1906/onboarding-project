@@ -2,10 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 import { News } from './news.entity';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { interval, Observable, switchMap } from 'rxjs';
-import { BaseResponseDto } from '../common/dto/base-response.dto';
-import { HelperService } from '../common/helper/helper.service';
 import { Pool, QueryResult } from 'pg';
 import { v4 as uuidv4 } from 'uuid';
+import { HelperService } from '@app/helper';
+import { BaseResponseDto } from '@app/dto';
 
 @Injectable()
 export class NewsService {

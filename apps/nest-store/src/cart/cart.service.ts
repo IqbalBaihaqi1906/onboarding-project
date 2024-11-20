@@ -1,15 +1,12 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import {
-  Cart,
-  CartDocument,
-} from '../common/database-connection/mongo/schemas/cart.schema';
 import { Model } from 'mongoose';
-import { HelperService } from '../common/helper/helper.service';
-import { BaseResponseDto } from '../common/dto/base-response.dto';
 import { ProductsService } from '../products/products.service';
 import { AddToCartDto } from './dto/add-to-cart.dto';
 import { Product } from '../products/models/product.model';
+import { HelperService } from '@app/helper';
+import { BaseResponseDto } from '@app/dto';
+import { Cart, CartDocument } from '@app/mongo';
 
 @Injectable()
 export class CartService {

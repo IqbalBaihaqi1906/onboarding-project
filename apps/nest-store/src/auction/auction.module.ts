@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AuctionService } from './auction.service';
 import { AuctionController } from './auction.controller';
-import { HelperModule } from '../common/helper/helper.module';
 import { AuctionGateway } from './auction.gateway';
-import { WsJwtAuthGuard } from '../common/guards/socket.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from '@app/database';
+import { HelperModule } from '@app/helper';
+import { WsJwtAuthGuard } from '@app/guards';
 
 @Module({
   imports: [

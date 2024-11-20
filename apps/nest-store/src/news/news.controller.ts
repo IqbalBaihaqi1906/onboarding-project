@@ -1,10 +1,10 @@
 import { Body, Controller, Post, Sse } from '@nestjs/common';
 import { NewsService } from './news.service';
 import { CreateNewsDto } from './dto/create-news.dto';
-import { BaseResponseDto } from '../common/dto/base-response.dto';
-import { Public } from '../common/decorators/public.decorator';
-import { map, Observable } from "rxjs";
-import { News } from "./news.entity";
+import { map, Observable } from 'rxjs';
+import { News } from './news.entity';
+import { BaseResponseDto } from '@app/dto';
+import { Public } from '@app/decorators';
 
 @Controller('news')
 export class NewsController {

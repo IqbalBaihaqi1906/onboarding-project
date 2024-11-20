@@ -1,0 +1,17 @@
+{
+  "transform": {
+    "mode": "sql",
+    "include": ["src/**/*.sql"],
+    "emitTemplate": "{{dir}}/{{name}}.queries.ts"
+  },
+  "srcDir": "./src/",
+  "failOnError": false,
+  "camelCaseColumnNames": false,
+  "db": {
+    "host": "localhost",
+    "user": "sample_store",
+    "password": "sample_store",
+    "dbName": "sample_store",
+    "port": 5434
+  }
+}

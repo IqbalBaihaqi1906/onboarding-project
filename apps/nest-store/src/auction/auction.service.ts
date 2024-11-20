@@ -6,9 +6,9 @@ import {
 } from '@nestjs/common';
 import { Pool, QueryResult } from 'pg';
 import { v4 as uuidv4 } from 'uuid';
-import { HelperService } from '../common/helper/helper.service';
 import { CreateAuctionDto } from './dto/create-auction.dto';
-import { BaseResponseDto } from '../common/dto/base-response.dto';
+import { HelperService } from '@app/helper';
+import { BaseResponseDto } from '@app/dto';
 
 @Injectable()
 export class AuctionService {

@@ -26,6 +26,42 @@
       ],
       "@app/interfaces": [
         "libs/interfaces"
+      ],
+      "@app/helper": [
+        "libs/helper/src"
+      ],
+      "@app/helper/*": [
+        "libs/helper/src/*"
+      ],
+      "@app/elastic": [
+        "libs/elastic/src"
+      ],
+      "@app/elastic/*": [
+        "libs/elastic/src/*"
+      ],
+      "@app/dto": [
+        "libs/dto"
+      ],
+      "@app/enums": [
+        "libs/enums"
+      ],
+      "@app/guards": [
+        "libs/guards"
+      ],
+      "@app/decorators": [
+        "libs/decorators"
+      ],
+      "@app/exceptions": [
+        "libs/exceptions"
+      ],
+      "@app/mongo": [
+        "libs/mongo"
+      ],
+      "@app/redis": [
+        "libs/redis/src"
+      ],
+      "@app/redis/*": [
+        "libs/redis/src/*"
       ]
     }
   }

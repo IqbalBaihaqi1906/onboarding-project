@@ -1,8 +1,8 @@
 import { Body, Controller, Param, Post } from '@nestjs/common';
 import { AuctionService } from './auction.service';
-import { Public } from '../common/decorators/public.decorator';
-import { BaseResponseDto } from '../common/dto/base-response.dto';
 import { CreateAuctionDto } from './dto/create-auction.dto';
+import { BaseResponseDto } from '@app/dto';
+import { Public } from '@app/decorators';
 
 @Controller('auction')
 export class AuctionController {

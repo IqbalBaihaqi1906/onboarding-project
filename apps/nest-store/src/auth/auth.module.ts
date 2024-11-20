@@ -1,14 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { HelperModule } from '../common/helper/helper.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from '../common/guards/auth.guard';
-import { RolesGuard } from '../common/guards/roles.guard';
-import { RedisModule } from '../libs/redis/redis.module';
 import { DatabaseModule } from '@app/database';
+import { HelperModule } from '@app/helper';
+import { AuthGuard, RolesGuard } from '@app/guards';
+import { RedisModule } from '@app/redis';
 
 @Module({
   controllers: [AuthController],

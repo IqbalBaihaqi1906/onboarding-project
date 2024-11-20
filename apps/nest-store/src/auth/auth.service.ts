@@ -6,15 +6,14 @@ import {
 } from '@nestjs/common';
 import { Pool, QueryResult } from 'pg';
 import { RegisterDto } from './dto/register.dto';
-import { BaseResponseDto } from '../common/dto/base-response.dto';
 import * as bcrypt from 'bcrypt';
-import { HelperService } from '../common/helper/helper.service';
 import { v4 as uuidv4 } from 'uuid';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
-import { LogTypeEnum } from '../common/enums/log-type.enum';
-import { EnumLogStatus } from '../common/dto/log.dto';
-import { RedisService } from '../libs/redis/redis.service';
+import { HelperService } from '@app/helper';
+import { BaseResponseDto, EnumLogStatus } from '@app/dto';
+import { LogTypeEnum } from '@app/enums';
+import { RedisService } from '@app/redis';
 
 @Injectable()
 export class AuthService {
@@ -120,7 +119,7 @@ export class AuthService {
       ]);
       return response;
     } catch (e) {
-      console.log(e)
+      console.log(e);
       throw new HttpException(
         e.message || 'Internal Server Error',
         e.status || 500,

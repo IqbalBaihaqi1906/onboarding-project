@@ -8,11 +8,10 @@ import {
   Req,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
-import { Roles } from '../common/decorators/roles.decorator';
-import { RoleUser } from '../common/enums/user.enum';
-import { AuthenticatedUser } from '../common/dto/authenticated-user.dto';
 import { AddToCartDto } from './dto/add-to-cart.dto';
-import { BaseResponseDto } from '../common/dto/base-response.dto';
+import { AuthenticatedUser, BaseResponseDto } from '@app/dto';
+import { RoleUser } from '@app/enums';
+import { Roles } from '@app/decorators';
 
 @Controller('cart')
 export class CartController {

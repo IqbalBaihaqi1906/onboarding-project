@@ -1,12 +1,12 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { Pool, QueryResult } from 'pg';
 import { CreateProductDto } from './dto/create-product.dto';
-import { BaseResponseDto } from '../common/dto/base-response.dto';
-import { HelperService } from '../common/helper/helper.service';
 import { v4 as uuidv4 } from 'uuid';
 import { GetProductsDto } from './dto/get-products.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ElasticService } from '../libs/elastic/elastic.service';
+import { HelperService } from '@app/helper';
+import { ElasticService } from '@app/elastic';
+import { BaseResponseDto } from '@app/dto';
 
 @Injectable()
 export class ProductsService {

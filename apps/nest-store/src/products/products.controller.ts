@@ -11,12 +11,11 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
-import { BaseResponseDto } from '../common/dto/base-response.dto';
 import { GetProductsDto } from './dto/get-products.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Public } from '../common/decorators/public.decorator';
-import { Roles } from '../common/decorators/roles.decorator';
-import { RoleUser } from '../common/enums/user.enum';
+import { BaseResponseDto } from '@app/dto';
+import { RoleUser } from '@app/enums';
+import { Public, Roles } from '@app/decorators';
 
 @Controller('products')
 export class ProductsController {

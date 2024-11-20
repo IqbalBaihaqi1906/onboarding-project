@@ -5,9 +5,7 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { Pool } from 'pg';
-import { HelperService } from '../common/helper/helper.service';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { BaseResponseDto } from '../common/dto/base-response.dto';
 import { Client, ClientGrpc, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 import { OrderServiceProto } from './interfaces/order-service.proto';
@@ -17,7 +15,9 @@ import {
   OrderListResponse,
   OrderResponse,
 } from 'libs/interfaces';
-import { GrpcException } from '../common/exceptions/grpc-exception.filter';
+import { HelperService } from '@app/helper';
+import { BaseResponseDto } from '@app/dto';
+import { GrpcException } from '@app/exceptions';
 
 @Injectable()
 export class OrdersService implements OnModuleInit {

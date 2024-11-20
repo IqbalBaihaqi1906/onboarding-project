@@ -36,6 +36,42 @@
       "compilerOptions": {
         "tsConfigPath": "libs/database/tsconfig.lib.json"
       }
+    },
+    "pgtyped-project": {
+      "type": "application",
+      "root": "apps/pgtyped-project",
+      "entryFile": "main",
+      "sourceRoot": "apps/pgtyped-project/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/pgtyped-project/tsconfig.app.json"
+      }
+    },
+    "helper": {
+      "type": "library",
+      "root": "libs/helper",
+      "entryFile": "index",
+      "sourceRoot": "libs/helper/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/helper/tsconfig.lib.json"
+      }
+    },
+    "elastic": {
+      "type": "library",
+      "root": "libs/elastic",
+      "entryFile": "index",
+      "sourceRoot": "libs/elastic/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/elastic/tsconfig.lib.json"
+      }
+    },
+    "redis": {
+      "type": "library",
+      "root": "libs/redis",
+      "entryFile": "index",
+      "sourceRoot": "libs/redis/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/redis/tsconfig.lib.json"
+      }
     }
   }
 }
