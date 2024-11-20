@@ -120,6 +120,7 @@ export class AuthService {
       ]);
       return response;
     } catch (e) {
+      console.log(e)
       throw new HttpException(
         e.message || 'Internal Server Error',
         e.status || 500,

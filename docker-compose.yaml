@@ -25,6 +25,44 @@ services:
     networks:
       - elastic
 
+  mongodb:
+    image: mongodb/mongodb-community-server:latest
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    networks:
+      - elastic
+    volumes:
+      - mongodb_data:/data/db
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - 6379:6379
+    networks:
+      - elastic
+
+  postgresql:
+    image: postgres
+    container_name: store_postgre
+    environment:
+      - POSTGRES_USER=sample_store
+      - POSTGRES_PASSWORD=sample_store
+      - POSTGRES_DB=sample_store
+    ports:
+      - 5434:5432
+    networks:
+      - elastic
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+
 networks:
   elastic:
     driver: bridge
+
+volumes:
+  mongodb_data:
+    driver: local
+  postgresql_data:
+    driver: local
