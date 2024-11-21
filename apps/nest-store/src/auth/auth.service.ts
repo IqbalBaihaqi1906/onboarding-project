@@ -88,11 +88,14 @@ export class AuthService {
         throw new BadRequestException('Invalid credentials');
       }
 
-      const accessToken: string = await this.jwtService.signAsync({
-        username: user.username,
-        id: user.id,
-        role: user.role,
-      });
+      const accessToken: string = await this.jwtService.signAsync(
+        {
+          username: user.username,
+          id: user.id,
+          role: user.role,
+        },
+        { expiresIn: '30d' },
+      );
 
       const response: BaseResponseDto = this.helper.transformToResponse(
         {

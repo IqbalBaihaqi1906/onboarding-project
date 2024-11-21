@@ -1,6 +1,7 @@
 import {
   CanActivate,
   ExecutionContext,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -10,6 +11,7 @@ import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { AuthService } from '../../apps/nest-store/src/auth/auth.service';
 import { PUBLIC } from '@app/decorators';
+import { Pool } from 'pg';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -17,7 +19,7 @@ export class AuthGuard implements CanActivate {
     private jwtService: JwtService,
     private configService: ConfigService,
     private reflector: Reflector,
-    private authService: AuthService,
+    @Inject('DB_CONNECTION') private conn: Pool,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -44,7 +46,16 @@ export class AuthGuard implements CanActivate {
         secret: this.configService.get('JWT_SECRET'),
       });
 
-      await this.authService.validateUser(payload.id);
+      const user = await this.conn.query(
+        `SELECT *
+         FROM users
+         WHERE id = $1`,
+        [payload.id],
+      );
+
+      if (user.rows.length === 0) {
+        throw new UnauthorizedException();
+      }
 
       request['user'] = payload;
     } catch {

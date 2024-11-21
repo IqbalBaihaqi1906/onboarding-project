@@ -3,17 +3,17 @@
     {
       "mode": "sql",
       "include": "**/*.sql",
-      "emitTemplate": "{{dir}}/{{name}}.queries.ts"
+      "emitTemplate": "{{dir}}/{{name}}.ts"
     }
   ],
   "srcDir": "./src/",
   "failOnError": false,
-  "camelCaseColumnNames": true,
+  "camelCaseColumnNames": false,
   "db": {
     "host": "localhost",
     "user": "sample_store",
-    "password": "sample_store",
     "dbName": "sample_store",
+    "password": "sample_store",
     "port": 5434
   }
 }

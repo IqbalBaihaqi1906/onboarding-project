@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { PgtypedProjectModule } from './../src/pgtyped-project.module';
+import { ReviewServiceModule } from './../src/review-service.module';
 
-describe('PgtypedProjectController (e2e)', () => {
+describe('ReviewServiceController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [PgtypedProjectModule],
+      imports: [ReviewServiceModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
