@@ -1,12 +1,14 @@
 {
-  "transform": {
-    "mode": "sql",
-    "include": ["src/**/*.sql"],
-    "emitTemplate": "{{dir}}/{{name}}.queries.ts"
-  },
+  "transforms": [
+    {
+      "mode": "sql",
+      "include": "**/*.sql",
+      "emitTemplate": "{{dir}}/{{name}}.queries.ts"
+    }
+  ],
   "srcDir": "./src/",
   "failOnError": false,
-  "camelCaseColumnNames": false,
+  "camelCaseColumnNames": true,
   "db": {
     "host": "localhost",
     "user": "sample_store",
